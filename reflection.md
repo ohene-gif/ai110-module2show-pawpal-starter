@@ -4,13 +4,11 @@
 
 **a. Initial design**
 
-- Briefly describe your initial UML design.
-- What classes did you include, and what responsibilities did you assign to each?
+My initial design included four main classes: `Owner`, `Pet`, `Task`, and `Scheduler`. The `Owner` manages one or more pets, the `Pet` stores its associated care tasks, the `Task` represents each job with details like time, duration, priority, and frequency, and the `Scheduler` organizes those tasks into a daily plan.
 
 **b. Design changes**
 
-- Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+I adjusted the design slightly during implementation by adding JSON serialization methods to `Owner` and `Pet`, and by expanding `Task` with recurrence support. This was useful because the project required a simple persistence flow and recurring scheduling logic, which were not obvious in the initial starter design.
 
 ---
 
@@ -18,13 +16,11 @@
 
 **a. Constraints and priorities**
 
-- What constraints does your scheduler consider (for example: time, priority, preferences)?
-- How did you decide which constraints mattered most?
+The scheduler mainly considers time, priority, pet assignment, and completion state. I gave priority the strongest weight because urgent tasks should appear earlier in the schedule, while time ordering keeps the plan organized for the day.
 
 **b. Tradeoffs**
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
+One tradeoff is that the current conflict detection only checks for exact time matches between tasks, not overlapping time ranges. This is reasonable for a lightweight pet-care planner because it keeps the logic easy to understand and avoids overcomplicating the scheduler while still catching the most obvious scheduling problems.
 
 ---
 
@@ -32,13 +28,11 @@
 
 **a. How you used AI**
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
-- What kinds of prompts or questions were most helpful?
+I used GitHub Copilot to brainstorm the class responsibilities, implement and connect the scheduler, explain the UML source, and compare the project against the assignment requirements. The most useful features were code generation and editing for implementation, plus debugging help that used actual test output to identify what an assertion was checking. In this project work, I used one ongoing chat rather than separate chats for each phase. Keeping the context together made it easier to connect design, code, and documentation, but separate chats could have made each phase more focused and easier to review.
 
 **b. Judgment and verification**
 
-- Describe one moment where you did not accept an AI suggestion as-is.
-- How did you evaluate or verify what the AI suggested?
+I did not accept every AI-generated suggestion as-is. An initial conflict test checked whether `"08:00"` was contained in the conflict dictionary. When the test failed, I had to check the returned data structure and changed the assertion to compare the dictionary's `"time"` value with `"08:00"`. I verified the correction by running pytest and confirming that the tests passed.
 
 ---
 
@@ -46,13 +40,11 @@
 
 **a. What you tested**
 
-- What behaviors did you test?
-- Why were these tests important?
+I tested task completion, pet task counting, time sorting, conflict detection, and daily recurring tasks. These behaviors are important because they directly reflect the app’s scheduling and planning reliability.
 
 **b. Confidence**
 
-- How confident are you that your scheduler works correctly?
-- What edge cases would you test next if you had more time?
+I feel moderately confident in the scheduler because the core tests pass and the CLI demo output behaves correctly. If I had more time, I would test overlapping time ranges, multiple pets at once, and edge cases like invalid times and empty task lists.
 
 ---
 
@@ -60,12 +52,12 @@
 
 **a. What went well**
 
-- What part of this project are you most satisfied with?
+The strongest part of the project was turning the starter UI into a working pet-care planner with a clean backend and real scheduling logic.
 
 **b. What you would improve**
 
-- If you had another iteration, what would you improve or redesign?
+I would next improve the scheduler to handle task overlaps with duration-aware conflict detection and add a richer explanation for why a task was selected.
 
 **c. Key takeaway**
 
-- What is one important thing you learned about designing systems or working with AI on this project?
+The biggest lesson was that being the lead architect means owning the design decisions and checking that the implementation matches the actual requirements, even when AI helps produce code quickly. Building and testing the backend before connecting the UI made the system easier to reason about. AI accelerated implementation, but I still needed to review its suggestions and verify behavior with tests and the running demo.

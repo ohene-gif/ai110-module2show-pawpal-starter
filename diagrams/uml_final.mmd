@@ -1,0 +1,52 @@
+classDiagram
+    class Owner {
+        +name: str
+        +pets: list[Pet]
+        +add_pet(pet)
+        +get_pet(name)
+        +get_all_tasks(include_completed)
+        +save_to_json(path)
+        +load_from_json(path)
+    }
+
+    class Pet {
+        +name: str
+        +species: str
+        +age: int|None
+        +tasks: list[Task]
+        +add_task(task)
+        +get_tasks(include_completed)
+    }
+
+    class Task {
+        +title: str
+        +start_time: str
+        +duration: int
+        +priority: str
+        +frequency: str
+        +completed: bool
+        +description: str
+        +pet_name: str|None
+        +task_date: date
+        +mark_complete()
+        +create_next_occurrence()
+        +to_dict()
+    }
+
+    class Scheduler {
+        +owner: Owner
+        +sort_by_time(tasks)
+        +sort_by_priority(tasks)
+        +filter_tasks(tasks, pet_name, include_completed, priority)
+        +build_daily_plan(pet_name)
+        +build_plan_for_date(plan_date, pet_name)
+        +mark_task_complete(task)
+        +detect_conflicts(tasks)
+        +find_next_available_slot(duration, start_time, end_time)
+        +render_plan(pet_name)
+    }
+
+    Owner "1" --> "0..*" Pet : manages
+    Pet "1" --> "0..*" Task : tracks
+    Scheduler --> Owner
+    Scheduler ..> Task : schedules and updates
